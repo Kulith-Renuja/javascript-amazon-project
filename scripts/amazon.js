@@ -1,4 +1,5 @@
-import { cart } from '../data/cart.js';
+import { cart, addToCart } from '../data/cart.js';
+import { products } from '../data/products.js'; // import the products data from the products.js file
 
 console.log('amozon.js loaded');
 // for show product details we create the array of prduct list and list have the obejct of product details
@@ -68,6 +69,16 @@ products.forEach((products) => {
 
 document.querySelector('.products-grid').innerHTML = productHTML;
 
+function updateCartQuantity() {
+  let cartquntity = 0;
+
+  cart.forEach((cartItem) => {
+      cartquntity += cartItem.quantity;
+  });
+  console.log(cartquntity);
+  document.querySelector('.js-cart-quntity').innerHTML = cartquntity;
+}
+
 // now we need to add the event listener to the add to cart button
 // so we need to select the add to cart button and add the event listener to it
 document.querySelectorAll('.add-to-cart-button').forEach((button, index) => {
@@ -81,30 +92,11 @@ document.querySelectorAll('.add-to-cart-button').forEach((button, index) => {
         //console.log(button.dataset.productName);
         const productId = button.dataset.productId;
         //console.log(productName);
-        let machingProduct;
-        cart.forEach((product) => {
-            if (product.productId === productId) {
-                machingProduct = product;
-            }
-        });
-        if (machingProduct) {
-            machingProduct.quantity++;
-        } else {
-            cart.push({
-                productId: productId,
-                quantity: 1
-            });
-        }
 
-        
+        addToCart(productId);
+        updateCartQuantity();
         //console.log(cart);
-        let cartquntity = 0;
 
-        cart.forEach((product) => {
-            cartquntity += product.quantity;
-        });
-        console.log(cartquntity);
-        document.querySelector('.js-cart-quntity').innerHTML = cartquntity;
 
     });
 });
