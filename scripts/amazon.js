@@ -1,3 +1,5 @@
+import { cart } from '../data/cart.js';
+
 console.log('amozon.js loaded');
 // for show product details we create the array of prduct list and list have the obejct of product details
 
@@ -96,5 +98,13 @@ document.querySelectorAll('.add-to-cart-button').forEach((button, index) => {
 
         
         //console.log(cart);
+        let cartquntity = 0;
+
+        cart.forEach((product) => {
+            cartquntity += product.quantity;
+        });
+        console.log(cartquntity);
+        document.querySelector('.js-cart-quntity').innerHTML = cartquntity;
+
     });
 });

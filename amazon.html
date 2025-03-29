@@ -45,7 +45,7 @@
 
         <a class="cart-link header-link" href="checkout.html">
           <img class="cart-icon" src="images/icons/cart-icon.png">
-          <div class="cart-quantity">3</div>
+          <div class="cart-quantity js-cart-quntity">0</div>
           <div class="cart-text">Cart</div>
         </a>
       </div>
@@ -56,9 +56,29 @@
       </div>
     </div>
 
-    <script src="data/cart.js"></script>
+    
     <script src="data/products.js"></script>
-    <script src="scripts/amazon.js"></script>
+    <script type="module" src="scripts/amazon.js"></script>
+
+    <!-- 
+    if we using these 3 js file thse files cann't use same veriable name because they are in the same scope.
+    const cart = []; is declared in cart.js 
+    if we declare const cart = []; in amazon.js it will error because it is already declared in cart.js
+    this call naming collision.
+    there for we use module pattern.
+    module pattern is a design pattern that allows us to create a module that encapsulates its own state and behavior.
+    3 steps
+    1 add type="module" to the script tag
+    2 use export keyword to export the variables and functions that we want to make available to other modules.
+    3 use import keyword to import the variables and functions that we want to use from other modules.
+
+    benifits of using module pattern
+    1.this mudule avoid naming conficts aslothis importing verible can cahnge the name.
+    ex - import { cart as cart1 } from './cart.js';
+    2.avid the order of the script tags in the html file. can be in any order.
+    3. esyly use in large projects.
+    -->
+    
     
   </body>
 </html>
