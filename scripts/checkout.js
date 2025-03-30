@@ -6,7 +6,10 @@
 import { cart, removeFromCart } from '../data/cart.js'
 import { products } from '../data/products.js';
 import { formatCurrency } from '../utility/money.js';
-
+import dayjs from'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
+// dont use {} these above import beacuse dayjs is defult export in that file 
+// we can define has - Export defualt dayjs(...) in that file
+import {deliveryOption } from '../data/deliveryOption.js';
 
 let cartsummeryHTML = '';
 
@@ -119,3 +122,58 @@ document.querySelectorAll('.delete-quantity-link').forEach((link) => {
         container.remove();
     });
 });
+
+//hello(); //loding js file from internet
+// we can use external libraries like above
+
+// let's load compressed js code to load faster through internet this compression called minification
+
+console.log(dayjs()); //loding js file from internet
+// use to these external libararies they have provided documentation how to use it 
+
+const today=dayjs();
+const deliveryDate = today.add(7,'days');
+//console.log(deliveryDate);
+console.log(deliveryDate.format('dddd MMMM D'));
+
+// best pratices of programming - when we need somthing complicated - try to find the external library first before write the code 
+
+//using library is can be compite with our veribale the for we want to use as modules  it's call ESM version - EcamScipt Module
+
+// lets import the ESM version of hello  js
+import {hello} from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
+// hello();
+
+function deliveryOptionHTML(){
+    deliveryOption.froEach((deliveryOption)=>{
+        const today = dayjs();
+        const deliveryDate = today.add(
+            deliveryOption.deliveryDays,'days'
+        );
+        const dateString = deliveryDate.format(
+            'dddd, MMMM D'
+        );
+        const priceSting = deliveryOption.priceCencts===0
+        ?'FREE'
+        :`$${formatCurrency(deliveryOption.priceCencts)} -`;
+        `
+        <div class="delivery-options">
+        <div class="delivery-options-title">
+            Choose a delivery option:
+        </div>
+        <div class="delivery-option">
+            <input type="radio" checked
+            class="delivery-option-input"
+            name="delivery-option-${matchingproduct.productId}">
+            <div>
+            <div class="delivery-option-date">
+                ${dateString}
+            </div>
+            <div class="delivery-option-price">
+                ${priceSting} Shipping
+            </div>
+            </div>
+        </div>
+        `
+    });
+}
