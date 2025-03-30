@@ -1,5 +1,6 @@
 import { cart, addToCart } from '../data/cart.js';
 import { products } from '../data/products.js'; // import the products data from the products.js file
+import { formatCurrency } from '../utility/money.js';
 
 console.log('amozon.js loaded');
 // for show product details we create the array of prduct list and list have the obejct of product details
@@ -31,7 +32,7 @@ products.forEach((products) => {
           </div>
 
           <div class="product-price">
-            $${(products.priceCents/100).toFixed(2)}
+            $${formatCurrency(products.priceCents)}
           </div>
 
           <div class="product-quantity-container">
