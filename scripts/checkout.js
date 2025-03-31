@@ -3,7 +3,7 @@
 //2 generate the html
 //3 make it interactive
 
-import { cart, removeFromCart } from '../data/cart.js'
+import { cart, removeFromCart,updateDeliveryOption } from '../data/cart.js'
 import { products } from '../data/products.js';
 import { formatCurrency } from '../utility/money.js';
 import dayjs from'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
@@ -22,11 +22,28 @@ cart.forEach((cartItem) => {
         }
     });
     //console.log(matchingproduct);
+    const deliveryOptionId = cartItem.deliveryOptionId;
+
+    let deliveryOption2;
+
+    deliveryOption.forEach((option) => {
+        if (option.id === deliveryOptionId){
+            deliveryOption2 = option ;
+        }
+    });
+
+    const today = dayjs();
+    const deliveryDate = today.add(
+        deliveryOption.deliverydays,'days'
+    );
+    const dateString = deliveryDate.format(
+        'dddd, MMMM D'
+    );
 
     cartsummeryHTML += `
     <div class="cart-item-container js-cart-item-container-${matchingproduct.id}">
     <div class="delivery-date">
-        Delivery date: Tuesday, June 21
+        Delivery date: ${dateString}
     </div>
 
     <div class="cart-item-details-grid">
@@ -53,49 +70,7 @@ cart.forEach((cartItem) => {
         </div>
         </div>
 
-        <div class="delivery-options">
-        <div class="delivery-options-title">
-            Choose a delivery option:
-        </div>
-        <div class="delivery-option">
-            <input type="radio" checked
-            class="delivery-option-input"
-            name="delivery-option-${matchingproduct.productId}">
-            <div>
-            <div class="delivery-option-date">
-                Tuesday, June 21
-            </div>
-            <div class="delivery-option-price">
-                FREE Shipping
-            </div>
-            </div>
-        </div>
-        <div class="delivery-option">
-            <input type="radio"
-            class="delivery-option-input"
-            name="delivery-option-${matchingproduct.productId}">
-            <div>
-            <div class="delivery-option-date">
-                Wednesday, June 15
-            </div>
-            <div class="delivery-option-price">
-                $4.99 - Shipping
-            </div>
-            </div>
-        </div>
-        <div class="delivery-option">
-            <input type="radio"
-            class="delivery-option-input"
-            name="delivery-option-${matchingproduct.productId}">
-            <div>
-            <div class="delivery-option-date">
-                Monday, June 13
-            </div>
-            <div class="delivery-option-price">
-                $9.99 - Shipping
-            </div>
-            </div>
-        </div>
+        ${deliveryOptionHTML(matchingproduct,cartItem)}
         </div>
     </div>
     </div>
@@ -144,36 +119,48 @@ console.log(deliveryDate.format('dddd MMMM D'));
 import {hello} from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
 // hello();
 
-function deliveryOptionHTML(){
-    deliveryOption.froEach((deliveryOption)=>{
+function deliveryOptionHTML(matchingproduct,cartItem) {
+    let HTML = '';
+    deliveryOption.forEach((deliveryOption)=>{
         const today = dayjs();
         const deliveryDate = today.add(
-            deliveryOption.deliveryDays,'days'
+            deliveryOption.deliverydays,'days'
         );
         const dateString = deliveryDate.format(
             'dddd, MMMM D'
         );
-        const priceSting = deliveryOption.priceCencts===0
+        const priceSting = deliveryOption.priceCents===0
         ?'FREE'
-        :`$${formatCurrency(deliveryOption.priceCencts)} -`;
-        `
-        <div class="delivery-options">
-        <div class="delivery-options-title">
-            Choose a delivery option:
-        </div>
-        <div class="delivery-option">
-            <input type="radio" checked
-            class="delivery-option-input"
-            name="delivery-option-${matchingproduct.productId}">
-            <div>
-            <div class="delivery-option-date">
-                ${dateString}
+        :`$${formatCurrency(deliveryOption.priceCents)} -`;
+        const isChecked = deliveryOption.id === cartItem.deliveryOptionId
+        HTML += `
+        <div class="delivery-options js-delivery-option" data-product-id="${matchingproduct.id}" data-delivery-option-id="${deliveryOption.id}">
+            <div class="delivery-options-title">
+                Choose a delivery option:
             </div>
-            <div class="delivery-option-price">
-                ${priceSting} Shipping
-            </div>
+            <div class="delivery-option">
+                <input type="radio" ${isChecked ?'checked' :''} 
+                class="delivery-option-input"
+                name="delivery-option-${matchingproduct.productId}">
+                <div>
+                    <div class="delivery-option-date">
+                        ${dateString}
+                    </div>
+                    <div class="delivery-option-price">
+                        ${priceSting} Shipping
+                    </div>
+                </div>
             </div>
         </div>
         `
     });
+
+    return HTML;
 }
+
+document.querySelectorAll('.js-delivery-option').forEach((element) =>{
+    element.addEventListener('click',()=>{
+        const {productId,deliveryOptionId}= element.dataset;
+        updateDeliveryOption(productId,deliveryOptionId);
+    })
+});

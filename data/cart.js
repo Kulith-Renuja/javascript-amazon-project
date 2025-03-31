@@ -56,3 +56,15 @@ export function addToCart(productId) {
     function saveLocalStorage() {
         localStorage.setItem('cart', JSON.stringify(cart));
     }
+
+    export function updateDeliveryOption(productId,deliveryOptionId){
+        let machingProduct2;
+        cart.forEach((product) => {
+            if (product.productId === productId) {
+                machingProduct2 = product;
+            }
+        });
+
+        machingProduct2.deliveryOptionId = deliveryOptionId;
+        saveLocalStorage();
+    }
