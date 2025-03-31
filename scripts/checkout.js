@@ -42,37 +42,41 @@ cart.forEach((cartItem) => {
 
     cartsummeryHTML += `
     <div class="cart-item-container js-cart-item-container-${matchingproduct.id}">
-    <div class="delivery-date">
-        Delivery date: ${dateString}
-    </div>
-
-    <div class="cart-item-details-grid">
-        <img class="product-image"
-        src="${matchingproduct.image}">
-
-        <div class="cart-item-details">
-        <div class="product-name">
-            ${matchingproduct.name}
-        </div>
-        <div class="product-price">
-            $${formatCurrency(matchingproduct.priceCents)}
-        </div>
-        <div class="product-quantity">
-            <span>
-            Quantity: <span class="quantity-label">${cartItem.quantity}</span>
-            </span>
-            <span class="update-quantity-link link-primary">
-            Update
-            </span>
-            <span class="delete-quantity-link link-primary" data-product-id="${matchingproduct.id}">
-            Delete
-            </span>
-        </div>
+        <div class="delivery-date">
+            Delivery date: ${dateString}
         </div>
 
-        ${deliveryOptionHTML(matchingproduct,cartItem)}
+        <div class="cart-item-details-grid">
+            <img class="product-image"
+            src="${matchingproduct.image}">
+
+            <div class="cart-item-details">
+                <div class="product-name">
+                    ${matchingproduct.name}
+                </div>
+                <div class="product-price">
+                    $${formatCurrency(matchingproduct.priceCents)}
+                </div>
+                <div class="product-quantity">
+                    <span>
+                    Quantity: <span class="quantity-label">${cartItem.quantity}</span>
+                    </span>
+                    <span class="update-quantity-link link-primary">
+                    Update
+                    </span>
+                    <span class="delete-quantity-link link-primary" data-product-id="${matchingproduct.id}">
+                    Delete
+                    </span>
+                </div>
+            </div>
+            <div class="delivery-options >
+                <div class="delivery-options-title">
+                    Choose a delivery option:
+                    ${deliveryOptionHTML(matchingproduct,cartItem)}
+                </div>
+                
+            </div>
         </div>
-    </div>
     </div>
     `;
 });
@@ -134,11 +138,8 @@ function deliveryOptionHTML(matchingproduct,cartItem) {
         :`$${formatCurrency(deliveryOption.priceCents)} -`;
         const isChecked = deliveryOption.id === cartItem.deliveryOptionId
         HTML += `
-        <div class="delivery-options js-delivery-option" data-product-id="${matchingproduct.id}" data-delivery-option-id="${deliveryOption.id}">
-            <div class="delivery-options-title">
-                Choose a delivery option:
-            </div>
-            <div class="delivery-option">
+        
+            <div class="delivery-option" js-delivery-option" data-product-id="${matchingproduct.id}" data-delivery-option-id="${deliveryOption.id}">
                 <input type="radio" ${isChecked ?'checked' :''} 
                 class="delivery-option-input"
                 name="delivery-option-${matchingproduct.productId}">
@@ -151,7 +152,7 @@ function deliveryOptionHTML(matchingproduct,cartItem) {
                     </div>
                 </div>
             </div>
-        </div>
+        
         `
     });
 
