@@ -10,6 +10,7 @@ import dayjs from'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 // dont use {} these above import beacuse dayjs is defult export in that file 
 // we can define has - Export defualt dayjs(...) in that file
 import {deliveryOption,getDeliveryOption} from '../../data/deliveryOption.js';
+import {renderPaymentSummary} from './paymentSummary.js';
 
 export function renderOrderSummary(){
 
@@ -91,6 +92,8 @@ export function renderOrderSummary(){
             const container = document.querySelector(`.js-cart-item-container-${productId}`);
             //console.log(container);
             container.remove();
+
+            renderPaymentSummary(); // recursion - calling the same function again and again
         });
     });
 
@@ -156,7 +159,9 @@ export function renderOrderSummary(){
             const {productId,deliveryOptionId}= element.dataset;
             updateDeliveryOption(productId,deliveryOptionId);
             renderOrderSummary(); // recursion - calling the same function again and again
+            renderPaymentSummary();
         })
+        
     });
 
 } 
