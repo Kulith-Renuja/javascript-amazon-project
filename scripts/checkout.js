@@ -24,17 +24,17 @@ cart.forEach((cartItem) => {
     //console.log(matchingproduct);
     const deliveryOptionId = cartItem.deliveryOptionId;
 
-    let deliveryOption2;
+    let deliveryOptions;
 
     deliveryOption.forEach((option) => {
         if (option.id === deliveryOptionId){
-            deliveryOption2 = option ;
+            deliveryOptions = option ;
         }
     });
 
     const today = dayjs();
     const deliveryDate = today.add(
-        deliveryOption.deliverydays,'days'
+        deliveryOptions.deliverydays,'days'
     );
     const dateString = deliveryDate.format(
         'dddd, MMMM D'
@@ -69,7 +69,7 @@ cart.forEach((cartItem) => {
                     </span>
                 </div>
             </div>
-            <div class="delivery-options >
+            <div class="delivery-options" >
                 <div class="delivery-options-title">
                     Choose a delivery option:
                     ${deliveryOptionHTML(matchingproduct,cartItem)}
@@ -126,6 +126,7 @@ import {hello} from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
 function deliveryOptionHTML(matchingproduct,cartItem) {
     let HTML = '';
     deliveryOption.forEach((deliveryOption)=>{
+        
         const today = dayjs();
         const deliveryDate = today.add(
             deliveryOption.deliverydays,'days'
@@ -138,11 +139,10 @@ function deliveryOptionHTML(matchingproduct,cartItem) {
         :`$${formatCurrency(deliveryOption.priceCents)} -`;
         const isChecked = deliveryOption.id === cartItem.deliveryOptionId
         HTML += `
-        
-            <div class="delivery-option" js-delivery-option" data-product-id="${matchingproduct.id}" data-delivery-option-id="${deliveryOption.id}">
+            <div class="delivery-option js-delivery-option" data-product-id="${matchingproduct.id}" data-delivery-option-id="${deliveryOption.id}">
                 <input type="radio" ${isChecked ?'checked' :''} 
                 class="delivery-option-input"
-                name="delivery-option-${matchingproduct.productId}">
+                name="delivery-option-${matchingproduct.id}">
                 <div>
                     <div class="delivery-option-date">
                         ${dateString}
@@ -152,8 +152,8 @@ function deliveryOptionHTML(matchingproduct,cartItem) {
                     </div>
                 </div>
             </div>
-        
         `
+        //console.log(`${deliveryOption.id},${matchingproduct.productId},${matchingproduct.id},`);
     });
 
     return HTML;

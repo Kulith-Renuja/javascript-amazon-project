@@ -58,13 +58,13 @@ export function addToCart(productId) {
     }
 
     export function updateDeliveryOption(productId,deliveryOptionId){
-        let machingProduct2;
+        let machingProduct;
         cart.forEach((product) => {
             if (product.productId === productId) {
-                machingProduct2 = product;
+                machingProduct = product;
             }
         });
 
-        machingProduct2.deliveryOptionId = deliveryOptionId;
+        machingProduct.deliveryOptionId = deliveryOptionId;
         saveLocalStorage();
     }
