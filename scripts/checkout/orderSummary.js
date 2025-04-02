@@ -4,12 +4,12 @@
 //3 make it interactive
 
 import { cart, removeFromCart,updateDeliveryOption } from '../../data/cart.js'
-import { products } from '../../data/products.js';
+import { products,getProduct } from '../../data/products.js';
 import { formatCurrency } from '../../utility/money.js';
 import dayjs from'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 // dont use {} these above import beacuse dayjs is defult export in that file 
 // we can define has - Export defualt dayjs(...) in that file
-import {deliveryOption } from '../../data/deliveryOption.js';
+import {deliveryOption,getDeliveryOption} from '../../data/deliveryOption.js';
 
 export function renderOrderSummary(){
 
@@ -17,22 +17,12 @@ export function renderOrderSummary(){
 
     cart.forEach((cartItem) => {
         const productId = cartItem.productId;
-        let matchingproduct ;
-        products.forEach((product) => {
-            if (product.id === productId) {
-                matchingproduct = product;
-            }
-        });
+
+        let matchingproduct = getProduct(productId);
         //console.log(matchingproduct);
         const deliveryOptionId = cartItem.deliveryOptionId;
 
-        let deliveryOptions;
-
-        deliveryOption.forEach((option) => {
-            if (option.id === deliveryOptionId){
-                deliveryOptions = option ;
-            }
-        });
+        let deliveryOptions = getDeliveryOption(deliveryOptionId);
 
         const today = dayjs();
         const deliveryDate = today.add(
