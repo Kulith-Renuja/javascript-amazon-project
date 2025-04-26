@@ -25,7 +25,7 @@ else{
     console.log('Test failed')
 }
 
-
+//teating framework do these all things for us first we learn Jasmine
 
 
 
