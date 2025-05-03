@@ -45,3 +45,5 @@ describe("test suite : addToCart", () => {
 
     
 });
+
+// above test cases are unit test cases 
