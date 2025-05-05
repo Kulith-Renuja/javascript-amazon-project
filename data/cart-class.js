@@ -13,19 +13,19 @@ in class  ... = value ;
 class Cart {
     //cartItem :undefined,
     //cartItem =undefined;
-    cartItem;
-    loadFromStorageKay;
+    cartItem; // public property accessible from outside the class
+    #localStorageKey; // #private property to store the local storage key
 
     constructor(localStorageKey) {
-        this.localStorageKey = localStorageKey; // this is a class property
-        this.loadFromStorage(); // load the cart from local storage
+        this.#localStorageKey = localStorageKey; // this is a class property
+        this.#loadFromStorage(); // load the cart from local storage // this is a private method
     }
  
 
-    loadFromStorage() {   // short hand method syntax
+    #loadFromStorage() {   // short hand method syntax // private method #
         // cart.cartItem = JSON.parse(localStorage.getItem('cart'));
         //if use other name for object this code not longer work for solve the problem we use this. instead of cart
-        this.cartItem = JSON.parse(localStorage.getItem(this.localStorageKey));
+        this.cartItem = JSON.parse(localStorage.getItem(this.#localStorageKey));
 
         if (!this.cartItem) {
             this.cartItem = [
@@ -46,7 +46,7 @@ class Cart {
     }
 
     saveLocalStorage() {
-        localStorage.setItem(this.localStorageKey, JSON.stringify(this.cartItem));
+        localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItem));
     }
 
     addToCart(productId) {
@@ -126,3 +126,8 @@ const businessCart = new Cart('cart-OOP-businessCart');
 console.log(cart); // lest try to export this object to other file in checkout
 console.log(cart.cartItem); // this will show the cart items in the console
 console.log(cart.cartItem[0].productId); // this will show the product id of the first item in the cart
+
+
+// now we can change name of localStorageKey like cart.localStorageKey = 'aaaaaaaaaa';
+// to prevent this class have property/method call private = can only accessed from inside the class , for that we use # before the property name
+// we can also have private method in the class by using # before the method name
