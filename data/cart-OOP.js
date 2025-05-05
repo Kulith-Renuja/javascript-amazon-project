@@ -136,4 +136,8 @@ const businessCart = Cart(' businessCartoop');
     */
 
 
-
+/*
+this is jut a object and we can use it like a class this is OOp concept
+class = object generator
+we can leaarn this in cart-class,js file
+*/
