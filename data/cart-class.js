@@ -23,6 +23,7 @@ class Cart {
  
 
     #loadFromStorage() {   // short hand method syntax // private method #
+        
         // cart.cartItem = JSON.parse(localStorage.getItem('cart'));
         //if use other name for object this code not longer work for solve the problem we use this. instead of cart
         this.cartItem = JSON.parse(localStorage.getItem(this.#localStorageKey));
